@@ -1,3 +1,5 @@
+import { formatCurrency } from "../utils/formatCurrency"
+
 type Props = {
   title: string
   profits: number
@@ -11,52 +13,52 @@ export default function GainCard({
   profits,
   losses,
   net,
-  realised
+  realised,
 }: Props) {
 
-const after =
-title === "After"
+  const after = title === "After"
 
-return (
+  return (
+    <div
+      className={`border border-slate-700 shadow-2xl p-8 ${
+        after
+          ? "bg-gradient-to-br from-blue-600 to-blue-500"
+          : "bg-slate-900"
+      }`}
+    >
+      <h2 className="text-4xl font-bold text-white mb-8">
+        {title} Harvesting
+      </h2>
 
-<div
-className={`
-rounded-2xl
-p-8
-text-white
-${after ? "bg-blue-500" : "bg-black"}
-`}
->
+      <div className="space-y-5">
 
-<h2 className="text-3xl font-bold mb-6">
+        <div className="flex justify-between text-gray-300 text-lg">
+          <span>Profits</span>
+          <span className="font-semibold text-white">
+            {formatCurrency(profits)}
+          </span>
+        </div>
 
-{title}
+        <div className="flex justify-between text-gray-300 text-lg">
+          <span>Losses</span>
+          <span className="font-semibold text-white">
+            {formatCurrency(losses)}
+          </span>
+        </div>
 
-</h2>
+        <hr className="border-slate-700" />
 
-<div className="space-y-4">
+        <div className="flex justify-between text-xl font-semibold text-white">
+          <span>Net Capital Gain</span>
+          <span>{formatCurrency(net)}</span>
+        </div>
 
-<div>
-Profit: ₹{profits}
-</div>
+        <div className="flex justify-between text-xl font-bold text-white">
+          <span>Realised Gain</span>
+          <span>{formatCurrency(realised)}</span>
+        </div>
 
-<div>
-Loss: ₹{losses}
-</div>
-
-<div>
-Net Capital Gain: ₹{net}
-</div>
-
-<div>
-Realised Gain: ₹{realised}
-</div>
-
-</div>
-
-</div>
-
-)
-
+      </div>
+    </div>
+  )
 }
-

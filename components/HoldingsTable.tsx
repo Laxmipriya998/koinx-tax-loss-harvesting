@@ -1,188 +1,164 @@
 type Props = {
-holdings:any[]
-
-selected:string[]
-
-toggle:(id:string)=>void
-
-toggleAll:()=>void
+  holdings: any[]
+  selected: string[]
+  toggle: (id: string) => void
+  toggleAll: () => void
 }
 
 export default function HoldingsTable({
+  holdings,
+  selected,
+  toggle,
+  toggleAll,
+}: Props) {
+  return (
+    <div className="mt-10">
 
-holdings,
+      <div className="overflow-x-auto border border-slate-700 shadow-2xl bg-slate-900">
 
-selected,
+        <table className="min-w-full text-white">
 
-toggle,
+          <thead>
 
-toggleAll
+            <tr className="border-b border-slate-700 bg-slate-800">
 
-}:Props){
+              <th className="px-6 py-5">
 
-return(
+                <input
+                  type="checkbox"
+                  checked={selected.length === holdings.length}
+                  onChange={toggleAll}
+                  className="h-5 w-5 accent-blue-600"
+                />
 
-<div className="mt-10">
+              </th>
 
-<div
-className="overflow-x-auto rounded-xl bg-white"
->
+              <th className="px-6 py-5 text-left">ASSET</th>
 
-<table
-className="w-full text-black"
->
+              <th className="px-6 py-5 text-center">HOLDINGS</th>
 
-<thead>
+              <th className="px-6 py-5 text-center">AVG BUY PRICE</th>
 
-<tr
-className="bg-gray-100"
->
+              <th className="px-6 py-5 text-center">CURRENT PRICE</th>
 
-<th className="p-4">
+              <th className="px-6 py-5 text-center">SHORT-TERM GAIN</th>
 
-<input
+              <th className="px-6 py-5 text-center">LONG-TERM GAIN</th>
 
-type="checkbox"
+              <th className="px-6 py-5 text-center">AMOUNT TO SELL</th>
 
-checked={
-selected.length===
-holdings.length
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            {holdings.map((item) => (
+
+              <tr
+                key={item.id}
+                className="border-b border-slate-700 hover:bg-slate-800 transition"
+              >
+
+                <td className="px-6 py-6">
+
+                  <input
+                    type="checkbox"
+                    checked={selected.includes(item.id)}
+                    onChange={() => toggle(item.id)}
+                    className="h-5 w-5 accent-blue-600"
+                  />
+
+                </td>
+
+                <td className="px-6 py-6">
+
+  <div className="flex items-center gap-3">
+
+    <div className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-sm font-bold">
+
+      {item.asset.charAt(0)}
+
+    </div>
+
+    <span className="font-semibold">
+
+      {item.asset}
+
+    </span>
+
+  </div>
+
+</td>
+
+
+                <td className="px-6 py-6 text-center">
+
+                  {item.holdings}
+
+                </td>
+
+                <td className="px-6 py-6 text-center">
+
+                  ₹{item.avgBuyPrice}
+
+                </td>
+
+                <td className="px-6 py-6 text-center">
+
+                  ₹{item.currentPrice}
+
+                </td>
+
+                <td
+                  className={`px-6 py-6 text-center font-bold ${
+                    item.shortTermGain >= 0
+                      ? "text-green-400"
+                      : "text-red-400"
+                  }`}
+                >
+                  {item.shortTermGain >= 0 ? "+" : ""}
+                  ₹{item.shortTermGain}
+                </td>
+
+                <td
+                  className={`px-6 py-6 text-center font-bold ${
+                    item.longTermGain >= 0
+                      ? "text-green-400"
+                      : "text-red-400"
+                  }`}
+                >
+                  {item.longTermGain >= 0 ? "+" : ""}
+                  ₹{item.longTermGain}
+                </td>
+
+                <td className="px-6 py-6 text-center">
+
+                  {selected.includes(item.id)
+                    ? item.holdings
+                    : "-"}
+
+                </td>
+
+              </tr>
+
+            ))}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <div className="flex justify-center mt-8">
+
+        <button
+          className="border border-blue-500 text-blue-400 hover:bg-blue-600 hover:text-white px-8 py-3 font-semibold transition">
+          View All Holdings
+        </button>
+
+      </div>
+
+    </div>
+  )
 }
-
-onChange={
-toggleAll
-}
-
-/>
-
-</th>
-
-<th className="p-4">
-Asset
-</th>
-
-<th className="p-4">
-Holdings
-</th>
-
-<th className="p-4">
-Avg Buy
-</th>
-
-<th className="p-4">
-Current
-</th>
-
-<th className="p-4">
-ST Gain
-</th>
-
-<th className="p-4">
-LT Gain
-</th>
-
-<th className="p-4">
-Sell
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-{
-
-holdings.map((item)=>(
-
-<tr
-key={item.id}
-className="border-t"
->
-
-<td className="p-4">
-
-<input
-
-type="checkbox"
-
-checked={
-selected.includes(
-item.id
-)
-}
-
-onChange={()=>
-
-toggle(
-item.id
-)
-
-}
-
-/>
-
-</td>
-
-<td className="p-4">
-{item.asset}
-</td>
-
-<td className="p-4">
-{item.holdings}
-</td>
-
-<td className="p-4">
-₹{item.avgBuyPrice}
-</td>
-
-<td className="p-4">
-₹{item.currentPrice}
-</td>
-
-<td className="p-4">
-₹{item.shortTermGain}
-</td>
-
-<td className="p-4">
-₹{item.longTermGain}
-</td>
-
-<td className="p-4">
-
-{
-
-selected.includes(
-item.id
-)
-
-?
-
-item.holdings
-
-:
-
-0
-
-}
-
-</td>
-
-</tr>
-
-))
-
-}
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-)
-
-}
-
